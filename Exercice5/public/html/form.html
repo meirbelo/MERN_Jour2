@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulaire</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="form-container">
+        <h1>Formulaire</h1>
+        <form action="create-student" method="POST">
+            <div class="form-group">
+                <label for="lastname">Nom de famille</label>
+                <input type="text" id="lastname" name="lastname" required>
+            </div>
+            <div class="form-group">
+                <label for="firstname">Prénom</label>
+                <input type="text" id="firstname" name="firstname" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Téléphone</label>
+                <input type="number" id="phone" name="phone">
+            </div>
+            <div class="form-group">
+                <label for="validated">Statut</label>
+                <select id="validated" name="validated">
+                    <option value="in progress">In Progress</option>
+                    <option value="validated">Validated</option>
+                    <option value="rejected">rejected</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="admin">Admin</label>
+                <input type="checkbox" id="admin" name="admin">
+            </div>
+            <div class="form-group">
+                <button type="submit">Envoyer</button>
+            </div>
+        </form>
+        
+    </div>
+</body>
+    <script>
+        function validateForm() {
+            var name = document.getElementById("name").value;
+            var email = document.getElementById("email").value;
+            var mobile = document.getElementById("mobile").value;
+            var age = document.getElementById("age").value;
+
+            if (name === "" || email === "" || mobile === "" || age === "") {
+                alert("Please fill out all fields.");
+                return false;
+            }
+
+            if (!/^[0-9]{10}$/.test(mobile)) {
+                alert("Please enter a valid 10-digit mobile number.");
+                return false;
+            }
+
+            return true;
+        }
+    </script>
+
+</html>

@@ -1,0 +1,24 @@
+{
+    "default": {
+      "server": {
+        "host": "localhost",
+        "port": 4242,
+        "mode": "default"
+      }
+    },
+    "development": {
+      "server": {
+        "host": "localhost",
+        "port": 4242,
+         "mode" : "development"
+      }
+    },
+    "production": {
+      "server": {
+        "host": "google.com",
+        "port": 8080,
+        "mode": "production"
+      }
+    }
+  }
+  

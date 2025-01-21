@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Étudiants en cours</title>
+    <link rel="stylesheet" type="text/css" href="../css/studentsInProgress.css">
+</head>
+<body>
+    <h1>Étudiants en cours de validation</h1>
+    <ul>
+        <% students.forEach(student => { %>
+            <li>
+                <strong>Nom :</strong> <%= student.lastname %>,
+                <strong>Prénom :</strong> <%= student.firstname %>,
+                <strong>Email :</strong> <%= student.email %>
+                <strong>Telephone :</strong> <%= student.phone %>
+                <strong>Statut :</strong> <%= student.validated %>
+                <strong>Admin :</strong> <%= student.admin %>
+            </li>
+        <% }) %>
+    </ul>
+</body>
+</html>

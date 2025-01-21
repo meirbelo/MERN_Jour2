@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Étudiants</title>
+    <link rel="stylesheet" type="text/css" href="../css/students.css">
+</head>
+<body>
+    <h1>Étudiants en cours de validation</h1>
+    <select name="orderBy" id="orderBy" onchange="handleOrderBy(this)">
+        <option value="" selected>-- order by --</option>
+        <option value="lastname-asc">Lastname A-Z</option>
+        <option value="lastname-desc">Lastname Z-A</option>
+        <option value="firstname-asc">Firstname A-Z</option>
+        <option value="firstname-desc">Firstname Z-A</option>
+        <option value="_id-asc">ID A-Z</option>
+        <option value="_id-desc">ID Z-A</option>
+    </select>
+    <button  id="openPopupBtn" class="info-btn">Ajouter un etudiant</button>
+
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <div id="add" class="tab-content active">
+                <h3>Ajouter un étudiant</h3>
+                <form id="addForm">
+                    <input type="text" name="lastname" placeholder="Nom" required><br>
+                    <input type="text" name="firstname" placeholder="Prénom" required><br>
+                    <input type="email" name="email" placeholder="Email" required><br>
+                    <input type="number" name="phone" placeholder="Téléphone"><br>
+                    <button type="submit" class="add-btn">Ajouter</button>
+                </form>
+            </div>           
+            <button id="closePopupBtn" class="alert-btn">Fermer</button>
+        </div>
+    </div>
+    
+    
+
+    
+    
+    <div class="search-container">
+        <form id="searchForm" action="/student/management" method="GET">
+            <input
+                type="text"
+                id="search"
+                name="search"
+                placeholder="Rechercher par nom, prénom, ID, email, téléphone, statut, admin"
+                value="<%= query || '' %>"
+            >
+            <button type="submit">Rechercher</button>
+        </form>
+    </div>
+    
+    
+    
+    <ul>
+        <% students.forEach(student => { %>
+            <li>
+                <div class="student-info">
+                    <div><strong>Nom :</strong> <%= student.lastname %></div>
+                    <div><strong>Prénom :</strong> <%= student.firstname %></div>
+                    <div><strong>Email :</strong> <%= student.email %></div>
+                    <div><strong>Telephone :</strong> <%= student.phone %></div>
+                    <div><strong>Statut :</strong> <%= student.validated %></div>
+                    <div><strong>Admin :</strong> <%= student.admin %></div>
+                </div>
+                <div class="action-buttons">
+                    <button class="edit-btn">Modifier</button>
+                    <button class="alert-btn">Supprimer</button>
+                </div>
+            </li>
+        <% }) %>
+    </ul>
+    
+    <script src="../js/students.js"></script>
+
+</body>
+</html>
