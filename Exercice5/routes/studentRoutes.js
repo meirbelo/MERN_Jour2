@@ -50,26 +50,23 @@ router.get("/management", async (req, res) => {
   try {
     const { query, orderBy = "id" } = req.query;
 
-    
-  console.log('field  :'  + query)
-  console.log('sortOrder  :'  + field)
-  console.log('field  :'  + sortOrder)
-  console.log('field  :'  + search)
-    // Créer le filtre de recherche
-    const searchFilter = query
-        ? {
-              $or: [
-                  { id: new RegExp(query, "i") },
-                  { firstname: new RegExp(query, "i") },
-                  { lastname: new RegExp(query, "i") },
-                  { email: new RegExp(query, "i") },
-                  { phone: new RegExp(query, "i") },
-              ],
-          }
-        : {};
-    // Récupérer les étudiants avec filtre et tri
-    const students = await Student.find(searchFilter).sort({ [field]: sortOrder });
-    //const students = await Student.find(searchFilter).sort({ [field]: 1 });
+
+
+
+    const searchFilter = search
+    ? {
+          $or: [
+              { firstname: { $regex: new RegExp(`^${search}$`, "i") } },
+              { lastname: { $regex: new RegExp(`^${search}$`, "i") } },
+              { phone: { $regex: new RegExp(`^${search}$`, "i") } },
+              { email: { $regex: new RegExp(`^${search}$`, "i") } }
+          ]
+      }
+    : {};
+
+const students = await Student.find(searchFilter);
+
+      //const students = await Student.find(searchFilter).sort({ [field]: 1 });
 
     // Rendre la page avec les données
     res.render("students", { students, query, orderBy });
