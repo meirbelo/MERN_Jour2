@@ -36,7 +36,6 @@ router.get("/in-progress", async (req, res) => {
     } catch (error) {
         console.error('Erreur lors de la récupération des étudiants:', error);
         res.status(500).send('Erreur du serveur');
-    
     }
 })
 router.get("/management", async (req, res) => {
@@ -49,10 +48,6 @@ router.get("/management", async (req, res) => {
 
   try {
     const { query, orderBy = "id" } = req.query;
-
-
-
-
     const searchFilter = search
     ? {
           $or: [
@@ -64,20 +59,71 @@ router.get("/management", async (req, res) => {
       }
     : {};
 
-const students = await Student.find(searchFilter);
-
-      //const students = await Student.find(searchFilter).sort({ [field]: 1 });
-
-    // Rendre la page avec les données
+    const students = (await Student.find(searchFilter).sort({ [field]: sortOrder }))
     res.render("students", { students, query, orderBy });
 } catch (err) {
     res.status(500).render("error", { message: "Erreur lors de la récupération des étudiants", error: err });
 }
 });
+router.get('/:id', async (req, res) => {
+  console.log('get student data by ID')
+  try {
+    const studentId =  {_id : req.params.id};
+    const student = await Student.find(studentId); // Rechercher l'étudiant dans la base de données
+    if (!student) {
+      return res.status(404).send('Étudiant introuvable');
+    }
+    res.json(student); // Retourner les données de l'étudiant au format JSON
+  } catch (error) {
+    console.error('Erreur lors de la récupération de l\'étudiant:', error);
+    res.status(500).send('Erreur du serveur');
+  }
+});
 
+router.put('/update-student/:id' , async (req ,res) => {
+  console.log('UPDATE Student')
 
+  try {
+      const studentId = req.params.id;
+      const updatedData = {
+        lastname: req.body.lastname,
+        firstname: req.body.firstname,
+        email: req.body.email,
+        phone: req.body.phone,
+        validated: req.body.validated,
+        admin: req.body.admin === 'on',
+      };
+      const updatedStudent = await Student.findByIdAndUpdate(studentId, updatedData, { new: true });
+      if (!updatedStudent) {
+        return res.status(404).send('Étudiant introuvable');
+      }
+      res.status(200).send('Étudiant mis à jour avec succès');
+  
 
+  } catch (error) {
+    console.error('Erreur lors de la mise à jour de l\'étudiant:', error);
+    res.status(500).send('Erreur du serveur');
 
+  }
+})
+
+router.delete('/delete-student/:id' , async (req ,res) => {
+  console.log('delete Student')
+
+  try {
+      const studentId = { _id  : req.params.id};
+      const deleteStudent = await Student.deleteOne(studentId);
+      if (deleteStudent.deletedCount === 0) {
+        return res.status(404).send('Étudiant introuvable');
+      }
+      res.status(200).send('Étudiant supprimer avec succès');
+
+  } catch (error) {
+    console.error('Erreur lors de la suppresion de l\'étudiant:', error);
+    res.status(500).send('Erreur du serveur');
+
+  }
+})
 
 
 module.exports = router;

@@ -22,16 +22,16 @@
     <div id="popup" class="popup">
         <div class="popup-content">
             <div id="add" class="tab-content active">
-                <h3>Ajouter un étudiant</h3>
-                <form id="addForm">
+                <h3 id="etudiant-name"> Étudiant : </h3>
+                <form id="addForm" action="update-student/:id">
                     <input type="text" name="lastname" placeholder="Nom" required><br>
                     <input type="text" name="firstname" placeholder="Prénom" required><br>
                     <input type="email" name="email" placeholder="Email" required><br>
                     <input type="number" name="phone" placeholder="Téléphone"><br>
-                    <button type="submit" class="add-btn">Ajouter</button>
+                    <button type="submit" class="add-btn">Modifier</button>
                 </form>
             </div>           
-            <button id="closePopupBtn" class="alert-btn">Fermer</button>
+            <button id="closePopupBtn" onclick="closepopUp()" class="alert-btn closePopupBtn">Fermer</button>
         </div>
     </div>
     
@@ -64,10 +64,11 @@
                     <div><strong>Telephone :</strong> <%= student.phone %></div>
                     <div><strong>Statut :</strong> <%= student.validated %></div>
                     <div><strong>Admin :</strong> <%= student.admin %></div>
+                    <div ><strong>ID :</strong> <%= student.id %></div>
                 </div>
                 <div class="action-buttons">
-                    <button class="edit-btn">Modifier</button>
-                    <button class="alert-btn">Supprimer</button>
+                    <button class="edit-btn" id="edit-btn" onclick="handleEditStudent('<%= student.id %>')">Modifier</button>
+                    <button class="alert-btn" onclick="handleDeleteStudent('<%= student.id %>')">Supprimer</button>
                 </div>
             </li>
         <% }) %>
